@@ -1,0 +1,28 @@
+@if (session('success'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+@if (session('error'))
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+@if ($errors->any())
+  <div class="alert alert-danger">
+    <strong>{{ __('validation.errors') }}</strong>
+    <ul class="mb-0">
+      @foreach ($errors->all() as $e) <li>{{ $e }}</li> @endforeach
+    </ul>
+  </div>
+@endif
+
+<script>
+  @if (session('success')) window.toastr && toastr.success(@json(session('success'))); @endif
+  @if (session('error'))   window.toastr && toastr.error(@json(session('error')));   @endif
+  @if ($errors->any())
+    @foreach ($errors->all() as $e) window.toastr && toastr.error(@json($e)); @endforeach
+  @endif
+</script>

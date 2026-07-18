@@ -1,0 +1,23 @@
+{{-- <div>
+    @if ($activeTab === 'general-settings')
+        @livewire('supply-chain.settings.general-settings')
+    @elseif ($activeTab === 'unit-data')
+        @livewire('supply-chain.settings.unit-data')
+    @elseif ($activeTab === 'producing-company-data')
+        @livewire('supply-chain.settings.producing-company-data')
+    @elseif ($activeTab === 'movement-types')
+        @livewire('supply-chain.settings.movement-types')
+    @elseif ($activeTab === 'write-off')
+        @livewire('supply-chain.settings.write-off')
+    @elseif ($activeTab === 'storage-conditions')
+        @livewire('supply-chain.settings.storage-conditions')
+    @elseif ($activeTab === 'return-reasons')
+        @livewire('supply-chain.settings.return-reasons')
+    @elseif ($activeTab === 'order-close-reasons')
+        @livewire('supply-chain.settings.order-close-reasons')
+    @elseif ($activeTab === 'financial-period')
+        @livewire('supply-chain.settings.financial-period')
+    @elseif ($activeTab === 'financial-year')
+        @livewire('supply-chain.settings.financial-year')
+    @endif
+</div> --}}

@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('hr_payslips', function (Blueprint $table) {
+            $table->decimal('gross_amount', 10, 2)->nullable()->after('total_amount');
+            $table->decimal('tax_amount', 10, 2)->default(0)->after('gross_amount');
+            $table->decimal('net_amount', 10, 2)->nullable()->after('tax_amount');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('hr_payslips', function (Blueprint $table) {
+            $table->dropColumn(['gross_amount', 'tax_amount', 'net_amount']);
+        });
+    }
+};

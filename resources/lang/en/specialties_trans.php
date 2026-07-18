@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'title' => 'Specialties',
+    'setting' => 'Settings',
+    'upload_logo' => 'Upload Logo',
+    'name_ar' => 'Name (Arabic)',
+    'name_en' => 'Name (English)',
+    'sr_no' => 'Serial Number',
+    'description' => 'Description',
+    'actions' => 'Actions',
+    'add_new' => 'Add New',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'update' => 'Update',
+    'specialty_list' => 'Specialties List',
+    'specialty_details' => 'Specialty Details',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
+    'action' => 'Action',
+    'status' => 'Status',
+    'logo' => 'Logo',
+];

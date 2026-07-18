@@ -1,0 +1,20 @@
+[30/09/2025 13:13:04.27] ⏰ Starting Laravel Scheduler... 
+[30/09/2025 13:13:04.28] ✅ Scheduler started 
+
+   INFO  Running scheduled tasks every minute.  
+
+^C[30/09/2025 13:13:16.34] ⏰ Starting Laravel Scheduler... 
+[30/09/2025 13:13:16.35] ✅ Scheduler started 
+
+   INFO  Running scheduled tasks every minute.  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+^C[30/09/2025 13:14:36.52] ⏰ Starting Laravel Scheduler... 
+
+   INFO  Running scheduled tasks every minute.  
+
+
+   INFO  No scheduled commands are ready to run.  
+

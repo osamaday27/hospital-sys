@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title' => 'Building and Floor Settings',
+    'id' => 'ID',
+    'sr_no' => '#',
+    'name_ar' => 'Name (Arabic)',
+    'name_en' => 'Name (English)',
+    'address' => 'Address',
+    'floors_count' => 'Number of Floors',
+    'latitude' => 'Latitude',
+    'longitude' => 'Longitude',
+    'action' => 'Action',
+    'create_date' => 'Creation Date',
+    'status' => 'Status',
+    'search' => 'Type here to search',
+    'h4_delete' => 'Are you sure you want to delete this record?',
+    'p_delete' => 'This action cannot be undone.',
+    'close' => 'Close',
+    'yes_delete' => 'Yes, Delete',
+    'setting' => 'System Settings',
+    'male' => 'Male',
+    'female' => 'Female',
+    'undefined' => 'Undefined',
+    'edit' => 'Edit',
+];

@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('hr_vacation_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->enum('take_vacation_in', ['hours', 'days']);
+            $table->enum('approval_type', ['no_validation', 'manager', 'hr_manager']);
+            $table->boolean('has_allocation')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('vacation_types');
+    }
+};

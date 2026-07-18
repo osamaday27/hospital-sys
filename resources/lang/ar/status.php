@@ -1,0 +1,63 @@
+<?php
+// resources/lang/ar/status.php
+return [
+    'active' => 'نشط',
+    'inactive' => 'موقوف',
+    'temporarily_suspended' => 'موقوف مؤقتاً',
+    'unknown' => 'غير معروف',
+    'open' => 'مفتوح',
+    'closed' => 'مغلق',
+    'pending' => 'معلق',
+    'approved' => 'موافق عليه',
+    'rejected' => 'مرفوض',
+    'completed' => 'مكتمل',
+    'in_progress' => 'قيد التنفيذ',
+    'failed' => 'فشل',
+    'cancelled' => 'ملغى',
+    'delayed' => 'متأخر',
+    'resolved' => 'تم الحل',
+    'waiting' => 'في الانتظار',
+    'not_started' => 'لم يبدأ',
+    'expired' => 'منتهي',
+    'on_hold' => 'معلق',
+    'processing' => 'قيد المعالجة',
+    'draft' => 'مسودة',
+    'shipped' => 'تم الشحن',
+    'delivered' => 'تم التسليم',
+    'returned' => 'تم الإرجاع',
+    'failed_payment' => 'دفع فاشل',
+    'success' => 'ناجح',
+    'confirmed' => 'محجوز',
+
+    'booked' => 'تم الحجز',
+    'confirmed' => 'تم التأكيد',
+    'preparing_patient' => 'تجهيز المريض',
+    'preparing_room' => 'تجهيز غرفة العمليات',
+    'ready_for_surgery' => 'المريض جاهز للعملية',
+
+    'anesthesia_started' => 'بدأ التخدير',
+    'anesthesia_completed' => 'التخدير مكتمل',
+    'incision_started' => 'بدأ الشق الجراحي',
+    'in_progress' => 'العملية جارية',
+    'on_hold' => 'تم الإيقاف المؤقت',
+
+    'surgery_completed' => 'تمت العملية بنجاح',
+    'closing_wound' => 'يتم إغلاق الجرح',
+    'wound_closed' => 'تم إغلاق الجرح',
+    'anesthesia_reversed' => 'إيقاف تأثير التخدير',
+    'recovery_room' => 'المريض في غرفة الإفاقة',
+    'under_observation' => 'المريض تحت المراقبة',
+    'discharged' => 'خروج المريض',
+
+    'canceled' => 'تم الإلغاء',
+    'failed' => 'فشلت العملية',
+    'postponed' => 'تم التأجيل',
+    'transferred' => 'تم نقل المريض',
+    'old_patient'=> 'مريض من النظام السابق',
+
+        'new' => 'جديد',
+    'under_review' => 'تحت المراجعه',
+    '' => 'تم الحجز',
+
+
+];

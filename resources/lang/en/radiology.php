@@ -1,0 +1,35 @@
+<?php
+return [
+        "title"=> "Radiology",
+
+    'add_device' => 'Add New Device',
+    'name_ar' => 'Name (Arabic)',
+    'name_en' => 'Name (English)',
+    'desc_ar' => 'Description (Arabic)',
+    'desc_en' => 'Description (English)',
+    'type' => 'Device Type',
+    'select_type' => 'Select Device Type',
+    'type_hint' => 'Choose the radiology device type',
+    'category' => 'Usage Category',
+    'select_category' => 'Select Category',
+    'category_hint' => 'Choose diagnostic or therapeutic',
+    'diagnostic' => 'Diagnostic',
+    'therapeutic' => 'Therapeutic',
+    'status' => 'Status',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'save' => 'Save',
+        'update'=> 'update',
+
+    'actions' => 'Actions',
+    'name' => 'Device Name',
+    'device_saved' => 'Device saved successfully.',
+    'device_deleted' => 'Device deleted.',
+    'confirm_delete' => 'Are you sure you want to delete this device?',
+     // 🏥 Main titles
+    'devices_list'       => 'Devices Types List',
+    'add_device'         => 'Add New Device',
+    'edit_device'        => 'Edit Device',
+    'no_data'            => 'No data available',
+    'search_placeholder' => 'Search by name or type...',
+];
