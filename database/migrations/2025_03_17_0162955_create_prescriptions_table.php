@@ -10,6 +10,10 @@ return new class extends Migration {
      */
     public function up()
     {
+        // 🔐 الحل الجذري الشامل: تعطيل فحص العلاقات مؤقتاً لتمرير بناء الجداول بأمان وتخطي أخطاء الترتيب
+        Schema::disableForeignKeyConstraints();
+
+        // 1. إنشاء جدول الوصفات الطبية (Prescriptions)
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_patient');
@@ -23,19 +27,32 @@ return new class extends Migration {
             $table->softDeletes();
         });
 
+        // 2. إنشاء جدول عناصر الوصفة (Prescription Items)
         Schema::create('prescription_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prescription_id')->constrained('prescriptions')->onDelete('cascade'); // ربط بالوصفة
-            $table->foreignId('medication_id')->constrained('medications')->onDelete('cascade'); // ربط بالدواء
+            
+            // 💡 التصحيح الاحترافي: تحويل العلاقات المتشابكة إلى حقول رقمية آمنة ومطابقة تمنع انهيار MySQL
+            $table->unsignedBigInteger('medication_id');
+            $table->unsignedBigInteger('unit_id')->nullable();
+            $table->unsignedBigInteger('duration_id')->nullable();
+            $table->unsignedBigInteger('taken_id')->nullable();
+            
             $table->integer('quantity'); // الكمية
-            $table->foreignId('unit_id')->constrained('medication_units')->onDelete('cascade'); // وحدة القياس
-            $table->foreignId('duration_id')->constrained('medication_durations')->onDelete('cascade'); // مدة الاستخدام
-            $table->foreignId('taken_id')->constrained('medication_takens')->onDelete('cascade'); // طريقة الإعطاء
             $table->integer('timer')->nullable(); // الوقت بين الجرعات
             $table->enum('eye', ['right', 'left', 'both'])->default('both'); // العين المستهدفة
             $table->text('notes')->nullable(); // ملاحظات الطبيب
             $table->timestamps();
+
+            // 🛠️ ربط العلاقات بطريقة صريحة ومستقرة تتخطى فحص الترتيب المزعج لمحرك قاعدة البيانات
+            $table->foreign('medication_id')->references('id')->on('medications')->onDelete('cascade');
+            $table->foreign('unit_id')->references('id')->on('medication_units')->onDelete('cascade');
+            $table->foreign('duration_id')->references('id')->on('medication_durations')->onDelete('cascade');
+            $table->foreign('taken_id')->references('id')->on('medication_takens')->onDelete('cascade');
         });
+
+        // 🔐 إعادة تفعيل فحص العلاقات فوراً بعد الانتهاء
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -43,7 +60,9 @@ return new class extends Migration {
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('prescription_items');
         Schema::dropIfExists('prescriptions');
+        Schema::enableForeignKeyConstraints();
     }
 };

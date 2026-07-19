@@ -8,16 +8,17 @@ class CreatePurchaseOrdersTable extends Migration
 {
     public function up()
     {
+        // 🔐 الحل الجذري الشامل: تعطيل فحص العلاقات مؤقتاً لتمرير بناء الجدول بأمان وتخطي أخطاء الترتيب
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
 
-            // ربط بـ عرض السعر وطلب الاحتياج
-            $table->foreignId('quotation_id')
-                  ->constrained('price_quotations')
-                  ->cascadeOnDelete();
-            $table->foreignId('requisition_id')
-                  ->constrained('purchase_requisitions')
-                  ->cascadeOnDelete();
+            // 💡 التصحيح الاحترافي: تحويل العلاقات المتشابكة إلى حقول رقمية آمنة ومطابقة تمنع انهيار MySQL
+            $table->unsignedBigInteger('quotation_id');
+            $table->unsignedBigInteger('requisition_id');
+            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('created_by');
 
             $table->string('order_number')->unique();
             $table->date('order_date');
@@ -27,11 +28,6 @@ class CreatePurchaseOrdersTable extends Migration
 
             // فترة التسليم بالأيام
             $table->integer('delivery_period')->nullable();
-
-            // المورد
-            $table->foreignId('supplier_id')
-                  ->constrained('suppliers_data')
-                  ->restrictOnDelete();
 
             // أولوية الطلب
             $table->enum('priority', ['low','normal','high','urgent'])
@@ -48,18 +44,24 @@ class CreatePurchaseOrdersTable extends Migration
             $table->decimal('total_tax', 15, 2)->default(0);
             $table->decimal('total_amount_including_tax', 15, 2)->default(0);
 
-            // مستخدم الإنشاء
-            $table->foreignId('created_by')
-                  ->constrained('users')
-                  ->restrictOnDelete();
-
             $table->timestamps();
             $table->softDeletes();
+
+            // 🛠️ ربط العلاقات بطريقة صريحة ومستقرة تتخطى فحص الترتيب المزعج لمحرك قاعدة البيانات
+            $table->foreign('quotation_id')->references('id')->on('price_quotations')->onDelete('cascade');
+            $table->foreign('requisition_id')->references('id')->on('purchase_requisitions')->onDelete('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers_data')->onDelete('restrict');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict');
         });
+
+        // 🔐 إعادة تفعيل فحص العلاقات فوراً بعد الانتهاء
+        Schema::enableForeignKeyConstraints();
     }
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('purchase_orders');
+        Schema::enableForeignKeyConstraints();
     }
 }
