@@ -9,11 +9,13 @@ return new class extends Migration {
     {
         Schema::table('medication_takens', function (Blueprint $table) {
             if (!Schema::hasColumn('medication_takens', 'description')) {
-                $table->json('description')->nullable()->after('name');
+                // تم إزالة ->after('name') لتجنب الخطأ
+                $table->json('description')->nullable();
             }
 
             if (!Schema::hasColumn('medication_takens', 'is_active')) {
-                $table->boolean('is_active')->default(true)->after('description');
+                // تم إزالة ->after('description') لضمان المرونة
+                $table->boolean('is_active')->default(true);
             }
         });
     }
@@ -22,11 +24,11 @@ return new class extends Migration {
     {
         Schema::table('medication_takens', function (Blueprint $table) {
             if (Schema::hasColumn('medication_takens', 'description')) {
-                $table->dropColumn('description');
+                $table->dropColumn('description'); //
             }
 
             if (Schema::hasColumn('medication_takens', 'is_active')) {
-                $table->dropColumn('is_active');
+                $table->dropColumn('is_active'); //
             }
         });
     }
