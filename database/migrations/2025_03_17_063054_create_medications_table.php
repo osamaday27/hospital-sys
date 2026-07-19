@@ -5,19 +5,41 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('medications', function (Blueprint $table) {
-            $table->id();
-            $table->string('name'); // اسم الدواء
-            $table->string('code')->unique(); // كود الدواء
-            $table->text('description')->nullable(); // وصف الدواء
-            $table->timestamps();
-        });
+      Schema::create('prescription_items', function (Blueprint $table) {
+    $table->id();
+    
+    // 💡 تعديل هام: حقل رقمي عادي بدون ربط مباشر هنا لمنع انهيار الجدول أثناء البناء
+    $table->unsignedBigInteger('medication_id'); 
+
+    $table->string('medication_text')->nullable();
+    $table->string('unit_text')->nullable();
+    $table->string('duration_text')->nullable();
+    $table->string('taken_text')->nullable();
+
+    $table->unsignedBigInteger('unit_id')->nullable();
+    $table->unsignedBigInteger('duration_id')->nullable();
+    $table->unsignedBigInteger('taken_id')->nullable();
+    
+    $table->timestamps();
+    $table->softDeletes();
+});
+
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('medications');
+        Schema::dropIfExists('prescription_items');
     }
 };

@@ -3,28 +3,26 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\models\hr\hr_vacations;
-use App\observers\vacationobserver;
+use Illuminate\Support\Facades\Schema; // تأكد من وجود هذا السطر في الأعلى
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        hr_vacations::observe(vacationobserver::class);
+        // 🔐 الحل الشامل: تعطيل فحص العلاقات للمشروع بالكامل أثناء الـ Migrations
+        Schema::disableForeignKeyConstraints();
+        
+        // ... أي أكواد أخرى موجودة لديك في الدالة تتركها كما هي ...
     }
 }

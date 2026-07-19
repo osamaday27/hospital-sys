@@ -12,6 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
+        // 🔐 الحل الجذري: تعطيل فحص العلاقات مؤقتاً لتجنب أخطاء الترتيب الزمني للملّفات
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('adm_s_nursing_stations', function (Blueprint $table) {
             $table->id();
             $table->string('name_ar'); // اسم المحطة بالعربي
@@ -30,6 +33,9 @@ return new class extends Migration {
             $table->timestamps();
             $table->softDeletes(); // الحذف الناعم
         });
+
+        // 🔐 إعادة تفعيل فحص العلاقات فوراً بعد بناء الجدول بنجاح
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
