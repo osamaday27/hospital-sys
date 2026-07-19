@@ -11,101 +11,70 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // جدول القوالب الرئيسي
-        Schema::create('m_s_medical_report_templates', function (Blueprint $table) {
-            $table->id();
-            
-            // المعلومات الأساسية
-            $table->string('name');
-            $table->text('content');
-            $table->text('description')->nullable();
-            $table->string('category', 100)->nullable();
-            
-            // الحالة والخصائص
-            $table->boolean('is_global')->default(false)->comment('قالب عام للجميع');
-            $table->boolean('is_active')->default(true)->comment('حالة القالب');
-            
-            // العلاقات
-            $table->foreignId('specialty_id')
-                  ->nullable()
-                  ->constrained('specialties')
-                  ->nullOnDelete()
-                  ->comment('التخصص الافتراضي');
-            
-            $table->foreignId('user_id')
-                  ->nullable()
-                  ->constrained('users')
-                  ->nullOnDelete()
-                  ->comment('المستخدم المالك');
-            
-            $table->foreignId('created_by')
-                  ->nullable()
-                  ->constrained('users')
-                  ->nullOnDelete()
-                  ->comment('من أنشأ القالب');
-            
-            $table->foreignId('updated_by')
-                  ->nullable()
-                  ->constrained('users')
-                  ->nullOnDelete()
-                  ->comment('آخر من حدث القالب');
-            
-            $table->timestamps();
-            $table->softDeletes();
-            
-            // الفهارس
-            $table->index('name');
-            $table->index('category');
-            $table->index('is_active');
-            $table->index('is_global');
-            $table->index('specialty_id');
-            $table->index('user_id');
-            $table->index(['is_active', 'is_global']);
-            $table->index('created_at');
+        if (!Schema::hasTable('m_s_medical_report_templates')) {
+            return;
+        }
+
+        // إضافة الأعمدة
+        Schema::table('m_s_medical_report_templates', function (Blueprint $table) {
+
+            if (!Schema::hasColumn('m_s_medical_report_templates', 'description')) {
+                $table->text('description')->nullable()->after('content');
+            }
+
+            if (!Schema::hasColumn('m_s_medical_report_templates', 'category')) {
+                $table->string('category', 100)->nullable()->after('description');
+            }
+
+            if (!Schema::hasColumn('m_s_medical_report_templates', 'is_active')) {
+                $table->boolean('is_active')->default(true)->after('is_global');
+            }
+
+            if (!Schema::hasColumn('m_s_medical_report_templates', 'created_by')) {
+                $table->unsignedBigInteger('created_by')->nullable()->after('user_id');
+            }
+
+            if (!Schema::hasColumn('m_s_medical_report_templates', 'updated_by')) {
+                $table->unsignedBigInteger('updated_by')->nullable()->after('created_by');
+            }
         });
 
-        // جدول علاقة القالب بالتخصصات المتعددة
-        Schema::create('m_s_medical_report_template_specialty', function (Blueprint $table) {
-            $table->id();
-            
-            $table->foreignId('template_id')
-                  ->constrained('m_s_medical_report_templates')
-                  ->cascadeOnDelete();
-            
-            $table->foreignId('specialty_id')
-                  ->constrained('specialties')
-                  ->cascadeOnDelete();
-            
-            $table->timestamps();
-            
-            // ✅ حل مشكلة الاسم الطويل بتحديد اسم الفهرس يدويًا
-            $table->unique(['template_id', 'specialty_id'], 'reporttpl_specialty_unique');
-            
-            // الفهارس
-            $table->index('template_id');
-            $table->index('specialty_id');
+        // إضافة العلاقات
+        Schema::table('m_s_medical_report_templates', function (Blueprint $table) {
+
+            try {
+                $table->foreign('created_by')
+                    ->references('id')
+                    ->on('users')
+                    ->nullOnDelete();
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->foreign('updated_by')
+                    ->references('id')
+                    ->on('users')
+                    ->nullOnDelete();
+            } catch (\Throwable $e) {}
         });
 
-        // جدول علاقة القالب بالمستخدمين المسموح لهم
-        Schema::create('m_s_medical_report_template_user', function (Blueprint $table) {
-            $table->id();
-            
-            $table->foreignId('template_id')
-                  ->constrained('m_s_medical_report_templates')
-                  ->cascadeOnDelete();
-            
-            $table->foreignId('user_id')
-                  ->constrained('users')
-                  ->cascadeOnDelete();
-            
-            $table->timestamps();
-            
-            // ✅ نفس الشيء هنا لتفادي الاسم الطويل
-            $table->unique(['template_id', 'user_id'], 'reporttpl_user_unique');
-            
-            // الفهارس
-            $table->index('template_id');
-            $table->index('user_id');
+        // إضافة الفهارس
+        Schema::table('m_s_medical_report_templates', function (Blueprint $table) {
+
+            try {
+                $table->index('category');
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->index('is_active');
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->index('created_by');
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->index('updated_by');
+            } catch (\Throwable $e) {}
         });
     }
 
@@ -114,8 +83,53 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_s_medical_report_template_user');
-        Schema::dropIfExists('m_s_medical_report_template_specialty');
-        Schema::dropIfExists('m_s_medical_report_templates');
+        if (!Schema::hasTable('m_s_medical_report_templates')) {
+            return;
+        }
+
+        Schema::table('m_s_medical_report_templates', function (Blueprint $table) {
+
+            try {
+                $table->dropForeign(['created_by']);
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->dropForeign(['updated_by']);
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->dropIndex(['category']);
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->dropIndex(['is_active']);
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->dropIndex(['created_by']);
+            } catch (\Throwable $e) {}
+
+            try {
+                $table->dropIndex(['updated_by']);
+            } catch (\Throwable $e) {}
+
+            $columns = [];
+
+            foreach ([
+                'description',
+                'category',
+                'is_active',
+                'created_by',
+                'updated_by'
+            ] as $column) {
+                if (Schema::hasColumn('m_s_medical_report_templates', $column)) {
+                    $columns[] = $column;
+                }
+            }
+
+            if (!empty($columns)) {
+                $table->dropColumn($columns);
+            }
+        });
     }
 };
