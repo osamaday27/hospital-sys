@@ -11,10 +11,11 @@ return new class extends Migration {
         Schema::disableForeignKeyConstraints();
 
         Schema::table('prescription_items', function (Blueprint $table) {
-            $table->string('medication_text')->nullable()->after('medication_id');
-            $table->string('unit_text')->nullable()->after('unit_id');
-            $table->string('duration_text')->nullable()->after('duration_id');
-            $table->string('taken_text')->nullable()->after('taken_id');
+            // 💡 تم إصلاح الحقول بإزالة أمر الترتيب (after) لتفادي أخطاء روابط العلاقات وموقعها
+            $table->string('medication_text')->nullable();
+            $table->string('unit_text')->nullable();
+            $table->string('duration_text')->nullable();
+            $table->string('taken_text')->nullable();
         });
 
         // 🔐 إعادة تفعيل فحص العلاقات بعد الحفظ

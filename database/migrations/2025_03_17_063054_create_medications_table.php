@@ -5,41 +5,27 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-      Schema::create('prescription_items', function (Blueprint $table) {
-    $table->id();
-    
-    // 💡 تعديل هام: حقل رقمي عادي بدون ربط مباشر هنا لمنع انهيار الجدول أثناء البناء
-    $table->unsignedBigInteger('medication_id'); 
+        // 🔐 إلزام قاعدة البيانات بتعطيل العلاقات مؤقتاً لتمرير بناء الجدول بدون أخطاء الترتيب
+        Schema::disableForeignKeyConstraints();
 
-    $table->string('medication_text')->nullable();
-    $table->string('unit_text')->nullable();
-    $table->string('duration_text')->nullable();
-    $table->string('taken_text')->nullable();
+        Schema::create('medications', function (Blueprint $table) {
+            $table->id(); // هذا ينشئ تلقائياً Unsigned Big Integer
+            $table->string('name'); // اسم الدواء
+            $table->string('code')->unique(); // كود الدواء
+            $table->text('description')->nullable(); // وصف الدواء
+            $table->timestamps();
+        });
 
-    $table->unsignedBigInteger('unit_id')->nullable();
-    $table->unsignedBigInteger('duration_id')->nullable();
-    $table->unsignedBigInteger('taken_id')->nullable();
-    
-    $table->timestamps();
-    $table->softDeletes();
-});
-
+        // 🔐 إعادة تفعيل فحص العلاقات بعد الحفظ بأمان
+        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('prescription_items');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('medications');
+        Schema::enableForeignKeyConstraints();
     }
 };
