@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
+use App\Models\hr\Employee;
 use App\Exports\EmployeeAcknowledgmentReport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;

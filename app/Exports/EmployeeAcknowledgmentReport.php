@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Employee;
+use App\Models\hr\Employee;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;

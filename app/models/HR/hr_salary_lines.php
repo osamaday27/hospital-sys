@@ -2,7 +2,7 @@
 
 namespace App\Models\HR;
 
-use App\Models\Employee;
+use App\Models\hr\Employee;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
